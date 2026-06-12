@@ -3,5 +3,5 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-ENV BOT_TOKEN=8921737314:AAFnm-fcCHPYDWHM78RHyf5bA_G3qh0byJRo
+ENV BOT_TOKEN=8921737314:AAFMI-GMqtVgXAQN2_vRVviKTNM3aygRbII
 CMD ["python", "-u", "bot.py"]
