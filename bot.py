@@ -186,6 +186,9 @@ async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
     register_user(uid, referred_by)
 
+    bot_username = (await ctx.bot.get_me()).username
+    ref_link = f"https://t.me/{bot_username}?start=REF_{uid}"
+
     text = (
         f"👋 Hola *{user.first_name}*!\n\n"
         "Soy *Turbo Media Downloader* 🚀\n"
@@ -194,8 +197,9 @@ async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
         "Simplemente envíame el enlace del video que quieres descargar.\n\n"
         f"🎁 *Plan gratuito:* {FREE_DAILY_LIMIT} descargas por día.\n"
         f"⭐ *Premium:* ilimitado por solo *{STARS_PRICE} Telegram Stars/mes*.\n\n"
-        "💰 *¡Gana Stars refiriendo amigos!*\n"
-        f"Por cada amigo que compre Premium ganas *{REFERRAL_COMMISSION} Stars* automáticamente.\n\n"
+        "💰 *¡Gana Stars invitando amigos!*\n"
+        f"Por cada amigo que compre Premium ganas *{REFERRAL_COMMISSION} Stars* automáticamente.\n"
+        f"👉 Tu link: `{ref_link}`\n\n"
         "Comandos:\n"
         "/status — ver tus descargas de hoy\n"
         "/premium — obtener acceso ilimitado\n"
@@ -329,13 +333,17 @@ async def handle_url(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
     allowed, remaining = can_download(uid)
     if not allowed:
+        bot_username = (await ctx.bot.get_me()).username
+        ref_link = f"https://t.me/{bot_username}?start=REF_{uid}"
         keyboard = [[InlineKeyboardButton("⭐ Comprar Premium — 199 Stars", callback_data="buy_premium")]]
         await update.message.reply_text(
             f"⛔ Has alcanzado tu límite de *{FREE_DAILY_LIMIT} descargas* gratuitas por hoy.\n\n"
-            "Opciones:\n"
-            "⭐ Compra Premium por solo 199 Stars\n"
-            "💰 Gana Stars gratis con /referido\n"
-            "🕐 Vuelve mañana para 5 descargas gratis",
+            "¿Cómo conseguir más?\n\n"
+            "⭐ *Opción 1:* Compra Premium por solo *199 Stars*\n\n"
+            f"💰 *Opción 2:* Gana Stars GRATIS compartiendo tu link:\n"
+            f"`{ref_link}`\n"
+            f"Cada amigo que compre Premium = *{REFERRAL_COMMISSION} Stars para ti*\n\n"
+            "🕐 *Opción 3:* Vuelve mañana para 5 descargas gratis",
             parse_mode="Markdown",
             reply_markup=InlineKeyboardMarkup(keyboard),
         )
