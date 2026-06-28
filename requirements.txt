@@ -1,2 +1,2 @@
 python-telegram-bot[all]==21.6
-yt-dlp==2024.11.4
+yt-dlp==2026.6.9
